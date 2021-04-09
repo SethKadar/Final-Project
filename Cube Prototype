@@ -1,0 +1,43 @@
+var cubeColors = [color(255, 255, 255), color(255, 0, 0), color(242, 228, 34), color(22, 224, 110), color(0, 0, 255), color(255, 140, 0)];
+
+var rows = 3; //number of rows
+var columns = 3; //number of columns
+var face1 = []; //array for left face
+var face2 = []; //array for right face
+
+var Cube = function(x, y, faceCubeColor) {
+    this.x = x;
+    this.y = y;
+    this.color = faceCubeColor;
+};
+
+Cube.prototype.draw = function(i, j) {
+    fill(this.color);
+    rect(this.x + (20 * i), this.y + (20 * j), 20, 20);
+};
+
+for (var i = 0; i < 9; i++) {
+    face1.push(new Cube(100, 100, cubeColors[0]));
+}
+
+for (var i = 0; i < 9; i++) {
+    face2.push(new Cube(176, 100, cubeColors[1]));
+}
+
+var drawFace = function(face) {
+    for (var i = 0; i < 9; i++) {
+        for (var j = 0; j < columns; j++) {
+            for (var k = 0; k < rows; k++) {
+                face[i].draw(j, k);
+            }
+        }
+    }
+
+};
+
+drawFace(face1);
+drawFace(face2);
+
+var mouseClicked = function(){
+  face1[0].push(face2[1]);
+};
