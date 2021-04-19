@@ -196,6 +196,8 @@ mouseClicked = function() {
     
     upArrows();
     
+    //moves top row of front face to right
+    
     // if (mouseY <= 200) {
     // testCube2.moveRow(testCube3,0);
     // testCube.moveRow(testCube2,0);
@@ -207,6 +209,8 @@ mouseClicked = function() {
     // }
     
     //---------------------------------
+    
+    //moves right column of front face
     
     // if (mouseY >= 300) {
     testCube.moveColumn(testCube6, 0, 2);
