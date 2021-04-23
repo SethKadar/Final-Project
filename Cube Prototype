@@ -107,14 +107,7 @@ Cube.prototype.rotate = function(direction, top, left, bottom, right, rotateUp, 
     bottom.colors[0][1] = leftCol[1];
     bottom.colors[0][2] = leftCol[2];
     
-    // for ( var i = 0; i < 3; i++ ) {
-    //     for ( var k = 2; k === 0; k--) {
-    //         var tempCol = this.color[0][0];
-    //         this.color[i][2] = tempCol;
-    //         tempCol = this.color[i][k];
-    //     }
-    // }
-    
+
 };
 
 var testCube = new Cube(14, 166, [
@@ -176,25 +169,30 @@ var downArrows = function() {
 var leftArrows = function() {
     for (var i = 0; i < 3; i++) {
         fill(0, 0, 0);
-        triangle(260 - (25 * i), 248, 270 - (25 * i), 258, 280 - (25 * i), 248);
+        triangle(190, 230 - (25 * i), 203, 237 - (25 * i), 203, 221 - (25 * i));
     }
 };
 
 var rightArrows = function() {
     for (var i = 0; i < 3; i++) {
         fill(0, 0, 0);
-        triangle(260 - (25 * i), 248, 270 - (25 * i), 258, 280 - (25 * i), 248);
+        triangle(301, 230 - (25 * i), 289, 237 - (25 * i), 289, 221 - (25 * i));
     }
 };
 
-
+draw = function() {
+    upArrows();
+    downArrows();
+    leftArrows();
+    rightArrows();
+};
 
 
 //----------------------------------------------------------------------------------
 
 mouseClicked = function() {
     
-    upArrows();
+    
     
     //moves top row of front face to right
     
@@ -213,13 +211,13 @@ mouseClicked = function() {
     //moves right column of front face
     
     // if (mouseY >= 300) {
-    testCube.moveColumn(testCube6, 0, 2);
-    testCube6.moveColumn(testCube3, 2, 2);
-    testCube3.moveColumn(testCube5, 2, 2);
-    testCube.draw();
-    testCube3.draw();
-    testCube5.draw();
-    testCube6.draw();
+    // testCube.moveColumn(testCube6, 0, 2);
+    // testCube6.moveColumn(testCube3, 2, 2);
+    // testCube3.moveColumn(testCube5, 2, 2);
+    // testCube.draw();
+    // testCube3.draw();
+    // testCube5.draw();
+    // testCube6.draw();
     
     
     //---------------------------------
@@ -229,4 +227,5 @@ mouseClicked = function() {
     
     
 };
+
 
