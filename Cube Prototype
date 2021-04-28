@@ -64,8 +64,8 @@ var rotateCube = function(direction, cube){
     var newColors = [ [], [], [] ];
     
     var rotCorner = [
-        [ [0, 2] ]
-        [ [2, 0] ]
+        [0, 2],
+        [2, 0]
         
         ];
     
@@ -76,14 +76,16 @@ var rotateCube = function(direction, cube){
     newColors[rotCorner[direction][1]][rotCorner[direction][1]] = cube.color[0][2];
     
     var rotEdge = [
-        [ [0, 2] ]
-        [ [1, 0] ]
+        [0, 2],
+        [1, 0]
     ];
     
     newColors[rotEdge[direction][0]][rotEdge[1][direction]] = cube.color[0][1];
     newColors[rotEdge[0][direction]][rotEdge[direction][0]] = cube.color[1][0];
     newColors[rotEdge[direction][0]][rotEdge[0][direction]] = cube.color[2][1];
     newColors[rotEdge[direction][1]][rotEdge[direction][0]] = cube.color[1][2];
+    
+    newColors[1][1] = cube.color[1][1];
     
     return newColors; 
     
@@ -254,13 +256,16 @@ mouseClicked = function() {
     
     //---------------------------------
     
-    testCube3.rotate(1, testCube5, testCube2, testCube6, testCube4);
-    testCube5.draw();
+    testCube2.rotate(1, testCube5, testCube, testCube6, testCube3);
+    
+    
+    
+    
+    testCube.draw();
     testCube2.draw();
     testCube3.draw();
     testCube4.draw();
+    testCube5.draw();
     testCube6.draw();
     
-    
 };
-
