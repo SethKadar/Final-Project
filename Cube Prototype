@@ -42,10 +42,26 @@ Cube.prototype.moveRow = function(otherCube, rowNumber){
     
 };
 
-Cube.prototype.moveColumn = function(otherCube, colNumberThis, colNumberOther) {
+Cube.prototype.moveColumnDown = function(otherCube, colNumberThis, colNumberOther) {
     
     // for loop which goes through each index in the outer array
     for ( var i = 0; i < 3; i++ ) {
+        
+        // save the column from the other cube
+        var tempCol = otherCube.color[i][colNumberOther];
+        
+        // move our current column to other cube
+        otherCube.color[i][colNumberOther] = this.color[i][colNumberThis];
+            
+        // change our current column to saved column
+        this.color[i][colNumberThis] = tempCol;
+    }
+};
+
+Cube.prototype.moveColumnUp = function(otherCube, colNumberThis, colNumberOther) {
+    
+    // for loop which goes through each index in the outer array
+    for ( var i = 2; i < 3; i-- ) {
         
         // save the column from the other cube
         var tempCol = otherCube.color[i][colNumberOther];
@@ -96,6 +112,96 @@ var rotateCube = function(direction, cube){
     return newColors; 
     
 };
+
+//face 1 is white face, face 2 is orange face, face 3 is yellow face, face 4 is red, face 5 is green, face 6 is blue
+
+Cube.prototype.rotate1 = function(direction, top, left, bottom, right) {
+  
+  //rotate the cube you're working on
+  this.color = rotateCube(direction, this);
+  // direction = 0: clockwise; direction = 1: counter clockwise
+  if (direction === 1){
+      //save left col 
+        var leftCol = [left.color[0][2], left.color[1][2], left.color[2][2]];
+        
+        // rotate top row to left column
+        left.color[0][2] = top.color[0][2];
+        left.color[1][2] = top.color[0][1];
+        left.color[2][2] = top.color[0][0];
+        
+        //save bottom 
+        var bottomRow = [bottom.color[2][0], bottom.color[2][1], bottom.color[2][2]];
+        
+        // update bottom from saved left column 
+        bottom.color[2][0] = leftCol[0];
+        bottom.color[2][1] = leftCol[1];
+        bottom.color[2][2] = leftCol[2];
+        
+        //save right col
+        var rightCol = [right.color[0][0], right.color[1][0], right.color[2][0]];
+        
+        // update right column from bottom row
+        right.color[0][0] = bottomRow[0];
+        right.color[1][0] = bottomRow[1];
+        right.color[2][0] = bottomRow[2];
+        
+        // update top row from right column
+        top.color[0][0] = rightCol[0];
+        top.color[0][1] = rightCol[1];
+        top.color[0][2] = rightCol[2];
+    }
+    
+    // if rotating clockwise
+    else if (direction === 0 ) {
+        //save left col 
+        var leftCol = [left.color[0][2], left.color[1][2], left.color[2][2]];
+        
+        // rotate top row to left column
+        left.color[0][2] = bottom.color[0][0];
+        left.color[1][2] = bottom.color[0][1];
+        left.color[2][2] = bottom.color[0][2];
+        
+        //save top 
+        var topRow = [top.color[2][0], top.color[2][1], top.color[2][2]];
+        
+        // update top from saved left column 
+        top.color[2][0] = leftCol[0];
+        top.color[2][1] = leftCol[1];
+        top.color[2][2] = leftCol[2];
+        
+        //save right col
+        var rightCol = [right.color[0][0], right.color[1][0], right.color[2][0]];
+        
+        // update right column from bottom row
+        right.color[0][0] = topRow[0];
+        right.color[1][0] = topRow[1];
+        right.color[2][0] = topRow[2];
+        
+        // update top row from right column
+        bottom.color[0][0] = rightCol[0];
+        bottom.color[0][1] = rightCol[1];
+        bottom.color[0][2] = rightCol[2];
+        
+    }
+      
+  };
+    
+/*Cube.prototype.rotate2 = function(direction, top, left, bottom, right) {
+    //rotate the cube you're working on
+  this.color = rotateCube(direction, this);
+  // direction = 0: clockwise; direction = 1: counter clockwise
+  if (direction === 1){
+    //save left col 
+        var leftCol = [left.color[0][2], left.color[1][2], left.color[2][2]];
+        
+        // rotate top row to left column
+        left.color[0][2] = bottom.color[0][0];
+        left.color[1][2] = bottom.color[0][1];
+        left.color[2][2] = bottom.color[0][2];
+        
+    
+};
+*/
 
 Cube.prototype.rotate3 = function(direction, top, left, bottom, right) {
     
@@ -172,14 +278,14 @@ Cube.prototype.rotate3 = function(direction, top, left, bottom, right) {
 
 // Creates instances for new cube faces (6 in total)
 var testCube = new Cube(14, 166, [
-    [cubeColors[0], cubeColors[0], cubeColors[0]],
+    [cubeColors[2], cubeColors[0], cubeColors[0]],
     [cubeColors[0], cubeColors[0], cubeColors[0]],
     [cubeColors[0], cubeColors[0], cubeColors[0]],
 ]);
     
 var testCube2 = new Cube(105, 166, [
     [cubeColors[5], cubeColors[5], cubeColors[5]],
-    [cubeColors[5], cubeColors[5], cubeColors[5]],
+    [cubeColors[1], cubeColors[5], cubeColors[5]],
     [cubeColors[5], cubeColors[5], cubeColors[5]],
 ]);
 
@@ -190,7 +296,7 @@ var testCube3 = new Cube(208, 166, [
 ]);
 var testCube4 = new Cube(316, 166, [
     [cubeColors[1], cubeColors[1], cubeColors[1]],
-    [cubeColors[1], cubeColors[1], cubeColors[1]],
+    [cubeColors[3], cubeColors[1], cubeColors[1]],
     [cubeColors[1], cubeColors[1], cubeColors[1]],
 ]);
 var testCube5 = new Cube(207, 50, [
@@ -241,18 +347,58 @@ var rightArrows = function() {
     }
 };
 
-// draw = function() {
-//     upArrows();
-//     downArrows();
-//     leftArrows();
-//     rightArrows();
-// };
+
+
+draw = function() {
+    upArrows();
+    downArrows();
+    leftArrows();
+    rightArrows();
+};
 
 
 //----------------------------------------------------------------------------------
 
 mouseClicked = function() {
+    //click on bottom right arrow of face 3
+    println(mouseX + "," + mouseY);
+    if(mouseX >= 260 && mouseX <= 280 && mouseY >= 250 && mouseY <= 260)
+    {
+        testCube4.color = rotateCube(1, testCube4);
+        testCube3.moveColumnDown(testCube5, 2, 2);
+        testCube5.moveColumnDown(testCube, 2, 0);
+        testCube.moveColumnDown(testCube6, 0, 2);
+        
+    }
     
+    //click on top right arrow of face 3
+    if(mouseX >= 260 && mouseX <= 280 && mouseY >= 150 && mouseY <= 160)
+    {
+        testCube6.moveColumnDown(testCube, 2, 0);
+        testCube.moveColumnDown(testCube5, 0, 2);
+        testCube5.moveColumnDown(testCube3, 2, 2);
+    }
+
+//moves top row of front face to right
+    
+    if (mouseX <= 300 && mouseX >=290 && mouseY <=190 && mouseY >= 170) {
+    testCube2.moveRow(testCube3,0);
+    testCube.moveRow(testCube2,0);
+    testCube4.moveRow(testCube,0);
+    }
+    
+    //moves top row of front face to the left
+    
+    if (mouseX <=205 && mouseX >=190 && mouseY <=190 && mouseY >= 170){
+        testCube.moveRow(testCube4,0);
+        testCube2.moveRow(testCube,0);
+        testCube3.moveRow(testCube2,0);
+    /*testCube3.moveRow(testCube2,0);
+    testCube2.moveRow(testCube,0);
+    testCube.moveRow(testCube4,0);*/
+    }
+    
+
     
     
     //moves top row of front face to right
@@ -270,23 +416,25 @@ mouseClicked = function() {
     //---------------------------------
     
     //moves right column of front face
+   
+   /* 
+    if (mouseY >= 300) {
+    testCube.moveColumn(testCube6, 0, 2);
+    testCube6.moveColumn(testCube3, 2, 2);
+    testCube3.moveColumn(testCube5, 2, 2);
+    testCube.draw();
+    testCube3.draw();
+    testCube5.draw();
+    testCube6.draw();
+    }
     
-    // if (mouseY >= 300) {
-    // testCube.moveColumn(testCube6, 0, 2);
-    // testCube6.moveColumn(testCube3, 2, 2);
-    // testCube3.moveColumn(testCube5, 2, 2);
-    // testCube.draw();
-    // testCube3.draw();
-    // testCube5.draw();
-    // testCube6.draw();
-    
+    */
     
     //---------------------------------
     
-    testCube3.rotate3(1, testCube5, testCube2, testCube6, testCube4);
+    //testCube3.rotate3(1, testCube5, testCube2, testCube6, testCube4);
     
-    
-    
+    //testCube.rotate1(1, testCube5, testCube4, testCube6, testCube2);
     
     testCube.draw();
     testCube2.draw();
