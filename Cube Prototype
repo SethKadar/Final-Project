@@ -75,15 +75,21 @@ var rotateCube = function(direction, cube){
     newColors[rotCorner[1][direction]][rotCorner[direction][0]] = cube.color[2][2];
     newColors[rotCorner[direction][1]][rotCorner[direction][1]] = cube.color[0][2];
     
-    var rotEdge = [
-        [0, 2],
-        [1, 0]
-    ];
-    
-    newColors[rotEdge[direction][0]][rotEdge[1][direction]] = cube.color[0][1];
-    newColors[rotEdge[0][direction]][rotEdge[direction][0]] = cube.color[1][0];
-    newColors[rotEdge[direction][0]][rotEdge[0][direction]] = cube.color[2][1];
-    newColors[rotEdge[direction][1]][rotEdge[direction][0]] = cube.color[1][2];
+    // rotates edge pieces
+    // clockwise if direction equals 0
+    if (direction === 0) {
+        newColors[1][2] = cube.color[0][1];
+        newColors[2][1] = cube.color[1][2];
+        newColors[1][0] = cube.color[2][1];
+        newColors[0][1] = cube.color[1][0];
+        
+    // counter clockwise if direction equals 1
+    } else if (direction === 1) {
+        newColors[1][0] = cube.color[0][1];
+        newColors[2][1] = cube.color[1][0];
+        newColors[1][2] = cube.color[2][1];
+        newColors[0][1] = cube.color[1][2];
+    }
     
     newColors[1][1] = cube.color[1][1];
     
@@ -91,24 +97,16 @@ var rotateCube = function(direction, cube){
     
 };
 
-Cube.prototype.rotate = function(direction, top, left, bottom, right) {
+Cube.prototype.rotate3 = function(direction, top, left, bottom, right) {
     
     // rotate the cube you're working on
     this.color = rotateCube(direction, this); 
-    
-    
-    // store the up and down neighors as a new cube 
-    //var internalUpCube = new Cube(0, 0, top.colors);
-    
-    // rotate the internal neighbor 
-    // for(var i = 0; i < rotateUp; i++){
-    //     rotateCube(1, internalUpCube);
-    // }
-    
+
     // direction = 0: clockwise; direction = 1: counter clockwise
+    // if rotating counter clockwise
     if (direction === 1) {
         
-        //save left col 2
+        //save left col 
         var leftCol = [left.color[0][2], left.color[1][2], left.color[2][2]];
         
         // rotate top row to left column
@@ -136,11 +134,40 @@ Cube.prototype.rotate = function(direction, top, left, bottom, right) {
         top.color[2][0] = rightCol[0];
         top.color[2][1] = rightCol[1];
         top.color[2][2] = rightCol[2];
-        
     }
     
-    
-    
+    // if rotating clockwise
+    else if (direction === 0 ) {
+        //save left col 
+        var leftCol = [left.color[0][2], left.color[1][2], left.color[2][2]];
+        
+        // rotate top row to left column
+        left.color[0][2] = bottom.color[0][0];
+        left.color[1][2] = bottom.color[0][1];
+        left.color[2][2] = bottom.color[0][2];
+        
+        //save top 
+        var topRow = [top.color[2][0], top.color[2][1], top.color[2][2]];
+        
+        // update top from saved left column 
+        top.color[2][0] = leftCol[0];
+        top.color[2][1] = leftCol[1];
+        top.color[2][2] = leftCol[2];
+        
+        //save right col
+        var rightCol = [right.color[0][0], right.color[1][0], right.color[2][0]];
+        
+        // update right column from bottom row
+        right.color[0][0] = topRow[0];
+        right.color[1][0] = topRow[1];
+        right.color[2][0] = topRow[2];
+        
+        // update top row from right column
+        bottom.color[0][0] = rightCol[0];
+        bottom.color[0][1] = rightCol[1];
+        bottom.color[0][2] = rightCol[2];
+        
+    }
 };
 
 // Creates instances for new cube faces (6 in total)
@@ -157,7 +184,7 @@ var testCube2 = new Cube(105, 166, [
 ]);
 
 var testCube3 = new Cube(208, 166, [
-    [cubeColors[1], cubeColors[2], cubeColors[2]],
+    [cubeColors[1], cubeColors[1], cubeColors[2]],
     [cubeColors[2], cubeColors[2], cubeColors[2]],
     [cubeColors[2], cubeColors[2], cubeColors[2]],
 ]);
@@ -256,7 +283,7 @@ mouseClicked = function() {
     
     //---------------------------------
     
-    testCube2.rotate(1, testCube5, testCube, testCube6, testCube3);
+    testCube3.rotate3(1, testCube5, testCube2, testCube6, testCube4);
     
     
     
