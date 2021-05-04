@@ -324,9 +324,9 @@ var leftArrowsFront = function() {
 };
 
 var leftArrowsTop = function() {
-    for (var i = 0; i < 2; i++) {
+    for (var i = 0; i < 3; i++) {
         fill(0, 0, 0);
-        triangle(190, 90 - (25 * i), 203, 78 - (25 * i), 203, 101 - (25 * i));
+        triangle(190, 110 - (25 * i), 203, 98 - (25 * i), 203, 121 - (25 * i));
     }
 };
 
@@ -338,22 +338,26 @@ var rightArrowsFront = function() {
 };
 
 var rightArrowsTop = function() {
-    for (var i = 0; i < 2; i++) {
+    for (var i = 0; i < 3; i++) {
         fill(0, 0, 0);
-        triangle(298, 90 - (25 * i), 286, 78 - (25 * i), 286, 101 - (25 * i));
+        triangle(298, 110 - (25 * i), 286, 98 - (25 * i), 286, 121 - (25 * i));
     }
 };
 
 
 
+
 draw = function() {
+    //arrows on initial yellow face
     upArrows();
     downArrows();
     leftArrowsFront();
     rightArrowsFront();
     
+    //arrows on initial green face
     leftArrowsTop();
     rightArrowsTop();
+ 
 };
 
 
@@ -490,8 +494,40 @@ mouseClicked = function() {
         backFace.rotateBack(1, topFace, rightFace, bottomFace, leftFace);     
     } 
     
+    // using the top arrows on green face
     
+    //click on top left arrow next to green top face
+    println(mouseX + " " + mouseY);
+    if(mouseX >= 190 && mouseX <= 204 && mouseY >= 50 && mouseY <= 71){
+        //insert functions
+        backFace.color = rotateCube(1, backFace);
+        //need to add in changes columns to rows
+    }
     
+    //click on middle left arrow of green face
+    if(mouseX >= 190 && mouseX <= 204 && mouseY >= 74 && mouseY <=95){
+        
+    }
+    
+    //click on bottom left arrow of green face
+    if(mouseX >= 190 && mouseX <= 204 && mouseY >=100 && mouseY <= 122){
+        
+    }
+    
+    //click on top right arrow on green face
+    if(mouseX >= 286 && mouseX <= 298 && mouseY >= 50 && mouseY <= 70){
+        
+    }
+    
+    //click on middle right arrow of green face
+    if(mouseX >= 286 && mouseX <= 298 && mouseY >= 76 && mouseY <= 96){
+        
+    }
+    
+    //click on bottom right arrow of green face
+    if(mouseX >= 286 && mouseX <= 298 && mouseY >= 102 && mouseY <= 122){
+        
+    }
     
     backFace.draw();
     leftFace.draw();
