@@ -221,76 +221,82 @@ var splashScreen = function(){
     background(255, 0, 0);
     fill(0, 0, 0);
     textSize(30);
-    text("Rubik's Cube",80,84);
+    text("Rubik's Cube",80,41);
     textSize(18);
-    text("By Shuichi Kameda Almeida and Seth Kadar",18, 130);
+    text("By Shuichi Kameda Almeida and Seth Kadar",18, 83);
+    text("Instructions: Click on directional arrows to move", 10, 110);
+    text("rows, columns, or faces.", 10, 135);
     btn1.draw();
     drawSeth(274,273,70);
+    drawShuichi(146,400,70);
 };
 
-
+//array of possible cube colors, white,red, yellow, green, blue, orange 
 var cubeColors = [color(255, 255, 255), color(255, 0, 0), color(242, 228, 34), color(22, 224, 110), color(0, 0, 255), color(255, 140, 0)];
 
-var currentDirection = 1; // 0 = clockwise, 1 = counter clockwise
-
+//cube constructor function that has properties of x, y, size, and colors
 var Cube = function(x, y, faceColors) {
     this.x = x;
     this.y = y;
-    
     this.size = 25;
-
     this.color = faceColors;
 };
 
-Cube.prototype.draw = function(i, j) {
+//draw method for cube faces, which draws
+Cube.prototype.draw = function() {
     
-    // Loop over faces property, and draw each cube
-    
+    // Loops over faces property, and draw each cube
     var index = 0; 
+    //draws a 3x3 face of cubes
     for ( var x = 0; x < 3; x++){
         for ( var y = 0; y < 3; y++){
             fill(this.color[y][x]);
+            strokeWeight(2);
+            //uses x, y, and size property from constructor function
             rect(this.x + x * this.size, this.y + y * this.size, this.size, this.size);
             index++;
         }
     }
-    
 };
 
+//method to move rows in the Rubik's Cube
 Cube.prototype.moveRow = function(otherCube, rowNumber){
     
-    // save the row from the other cube
+    // saves the row from the other cube
     var tempRow = otherCube.color[rowNumber];
     
-    // move our current row to other cube
+    // moves our current row to other cube
     otherCube.color[rowNumber] = this.color[rowNumber];
     
-    // change our current row to saved copy 
+    // changes our current row to saved copy 
     this.color[rowNumber] = tempRow; 
     
 };
 
+//method to move columns of the Rubik's Cube
 Cube.prototype.moveColumn = function(otherCube, colNumberThis, colNumberOther) {
     
     // for loop which goes through each index in the outer array
     for ( var i = 0; i < 3; i++ ) {
         
-        // save the column from the other cube
+        // saves the column from the other cube
         var tempCol = otherCube.color[i][colNumberOther];
         
-        // move our current column to other cube
+        // moves our current column to other cube
         otherCube.color[i][colNumberOther] = this.color[i][colNumberThis];
             
-        // change our current column to saved column
+        // changes our current column to saved column
         this.color[i][colNumberThis] = tempCol;
     }
 };
 
+//function to rotate the internal array's of one face
 // direction: 0 = clockwise, 1 = counter clockwise
 var rotateCube = function(direction, cube){
-    // create a blank array for rotated face
+    // creates a blank array for rotated face
     var newColors = [ [], [], [] ];
     
+    //array used by newColors to rotate corner peices based on specified direction
     var rotCorner = [
         [0, 2],
         [2, 0]
@@ -319,6 +325,7 @@ var rotateCube = function(direction, cube){
         newColors[0][1] = cube.color[1][2];
     }
     
+    //keeps middle color the same
     newColors[1][1] = cube.color[1][1];
     
     return newColors; 
@@ -327,6 +334,7 @@ var rotateCube = function(direction, cube){
 
 //face 1 is white face, face 2 is orange face, face 3 is yellow face, face 4 is red, face 5 is green, face 6 is blue
 
+//method to rotate front (yellow) face
 Cube.prototype.rotateFront = function(direction, top, left, bottom, right) {
   
   //rotate the cube you're working on
@@ -398,11 +406,11 @@ Cube.prototype.rotateFront = function(direction, top, left, bottom, right) {
       
   };
   
+//method to rotate the very middle 9 cubes that are in between the front and back face
+Cube.prototype.rotateMiddle = function(direction, top, left, bottom, right) {
   
-  Cube.prototype.rotateMiddle = function(direction, top, left, bottom, right) {
-  
-  // direction = 0: clockwise; direction = 1: counter clockwise
-  if (direction === 1){
+    // direction = 0: clockwise; direction = 1: counter clockwise
+    if (direction === 1){
       //save left col 
         var leftCol = [left.color[0][1], left.color[1][1], left.color[2][1]];
         
@@ -466,9 +474,9 @@ Cube.prototype.rotateFront = function(direction, top, left, bottom, right) {
         
     }
       
-  };
+};
     
-
+//method to rotate the back face
 Cube.prototype.rotateBack = function(direction, top, left, bottom, right) {
     
     // rotate the cube you're working on
@@ -544,39 +552,39 @@ Cube.prototype.rotateBack = function(direction, top, left, bottom, right) {
 
 // Creates instances for new cube faces (6 in total)
 var backFace = new Cube(14, 166, [
-    [cubeColors[2], cubeColors[0], cubeColors[0]],
+    [cubeColors[0], cubeColors[0], cubeColors[0]],
     [cubeColors[0], cubeColors[0], cubeColors[0]],
     [cubeColors[0], cubeColors[0], cubeColors[0]],
 ]);
     
 var leftFace = new Cube(105, 166, [
     [cubeColors[5], cubeColors[5], cubeColors[5]],
-    [cubeColors[1], cubeColors[5], cubeColors[5]],
+    [cubeColors[5], cubeColors[5], cubeColors[5]],
     [cubeColors[5], cubeColors[5], cubeColors[5]],
 ]);
 
 var frontFace = new Cube(208, 166, [
-    [cubeColors[1], cubeColors[1], cubeColors[2]],
+    [cubeColors[2], cubeColors[2], cubeColors[2]],
     [cubeColors[2], cubeColors[2], cubeColors[2]],
     [cubeColors[2], cubeColors[2], cubeColors[2]],
 ]);
 var rightFace = new Cube(316, 166, [
     [cubeColors[1], cubeColors[1], cubeColors[1]],
-    [cubeColors[3], cubeColors[1], cubeColors[1]],
+    [cubeColors[1], cubeColors[1], cubeColors[1]],
     [cubeColors[1], cubeColors[1], cubeColors[1]],
 ]);
 var topFace = new Cube(207, 50, [
-    [cubeColors[3], cubeColors[2], cubeColors[3]],
+    [cubeColors[3], cubeColors[3], cubeColors[3]],
     [cubeColors[3], cubeColors[3], cubeColors[3]],
     [cubeColors[3], cubeColors[3], cubeColors[3]],
 ]);
 var bottomFace = new Cube(207, 280, [
-    [cubeColors[4], cubeColors[3], cubeColors[4]],
+    [cubeColors[4], cubeColors[4], cubeColors[4]],
     [cubeColors[4], cubeColors[4], cubeColors[4]],
     [cubeColors[4], cubeColors[4], cubeColors[4]],
 ]);
 
-// draws arrow
+// draws arrow used to move the faces
 var upArrows = function() {
     for (var i = 0; i < 3; i++) {
         fill(0, 0, 0);
@@ -619,9 +627,7 @@ var rightArrowsTop = function() {
     }
 };
 
-
-
-
+//draw function that draws splashscreen, and then draws app screen
 draw = function() {
     if (scene === 1){
      splashScreen();   
@@ -639,156 +645,153 @@ draw = function() {
     }
 };
 
-
-//----------------------------------------------------------------------------------
-
+//mouseClicked function to handle the splashscreen button as well as the arrows which move the cube once clicked on 
 mouseClicked = function() {
     
-     if (scene === 1){
+    if (scene === 1){
         btn1.handleMouseClick();
     }
+    
     else if(scene === 2){
-    
-    // front face - top row: move right
-    if (mouseX <= 300 && mouseX >=290 && mouseY <=190 && mouseY >= 170) 
-    {
-        topFace.color = rotateCube(1, topFace);
-        leftFace.moveRow(frontFace, 0);
-        backFace.moveRow(leftFace, 0);
-        rightFace.moveRow(backFace, 0);
-    } 
-    
-    // front face - top row: move left
-    if (mouseX <=205 && mouseX >=190 && mouseY <=190 && mouseY >= 170) 
-    {
-        topFace.color = rotateCube(0, topFace);
-        backFace.moveRow(rightFace, 0);
-        leftFace.moveRow(backFace, 0);
-        frontFace.moveRow(leftFace, 0);
-    }
-    
-    // front face - right column: move up
-    if (mouseX >= 260 && mouseX <= 280 && mouseY >= 150 && mouseY <= 160)
-    {
-        rightFace.color = rotateCube(0, rightFace);
-        bottomFace.moveColumn(backFace, 2, 0);
-        backFace.moveColumn(topFace, 0, 2);
-        topFace.moveColumn(frontFace, 2, 2);
-    }
-
-    // front face - right column: move down
-    if (mouseX >= 260 && mouseX <= 280 && mouseY >= 250 && mouseY <= 260)
-    {
-        rightFace.color = rotateCube(1, rightFace);
-        frontFace.moveColumn(topFace, 2, 2);
-        topFace.moveColumn(backFace, 2, 0);
-        backFace.moveColumn(bottomFace, 0, 2);
-    }
-    
-    // front face - middle column: move up
-    if (mouseX >= 235 && mouseX <= 255 && mouseY >= 147 && mouseY <= 160)
-    {
-        bottomFace.moveColumn(backFace, 1, 1);
-        backFace.moveColumn(topFace, 1, 1);
-        topFace.moveColumn(frontFace, 1, 1);
-    }
-    
-    // front face - middle column: move down
-    if (mouseX >= 235 && mouseX <= 255 && mouseY >= 245 && mouseY <= 255)
-    {
-        frontFace.moveColumn(topFace, 1, 1);
-        topFace.moveColumn(backFace, 1, 1);
-        backFace.moveColumn(bottomFace, 1, 1);
-    }
-    
-    // front face - left column: move up
-    if (mouseX >= 207 && mouseX <= 230 && mouseY >= 145 && mouseY <= 160)
-    {
-        leftFace.color = rotateCube(1, leftFace);
-        bottomFace.moveColumn(backFace, 0, 2);
-        backFace.moveColumn(topFace, 2, 0);
-        topFace.moveColumn(frontFace, 0, 0);
-    }
-    
-    // front face - left column: move down
-    if (mouseX >= 207 && mouseX <= 230 && mouseY >= 245 && mouseY <= 255)
-    {
-        leftFace.color = rotateCube(0, leftFace);
-        frontFace.moveColumn(topFace, 0, 0);
-        topFace.moveColumn(backFace, 0, 2);
-        backFace.moveColumn(bottomFace, 2, 0);
-    }
-    
-    // front face - middle row: move right
-    if (mouseX >= 285 && mouseX <= 300 && mouseY >= 195 && mouseY <= 210)
-    {
-        leftFace.moveRow(frontFace, 1);
-        backFace.moveRow(leftFace, 1);
-        rightFace.moveRow(backFace, 1); 
-    }
-    
-    // front face - middle row: move left
-    if (mouseX >= 188 && mouseX <= 203 && mouseY >= 195 && mouseY <= 210)
-    {
-        backFace.moveRow(rightFace, 1);
-        leftFace.moveRow(backFace, 1);
-        frontFace.moveRow(leftFace, 1);
-    }
-    
-    // front face - bottom row: move right
-    if (mouseX >= 285 && mouseX <= 300 && mouseY >= 220 && mouseY <= 237)
-    {
-        bottomFace.color = rotateCube(0, bottomFace);
-        leftFace.moveRow(frontFace, 2);
-        backFace.moveRow(leftFace, 2);
-        rightFace.moveRow(backFace, 2); 
-    }
-    
-    // front face - bottom row: move left
-    if (mouseX >= 188 && mouseX <= 203 && mouseY >= 220 && mouseY <= 237)
-    {
-        bottomFace.color = rotateCube(1, bottomFace);
-        backFace.moveRow(rightFace, 2);
-        leftFace.moveRow(backFace, 2);
-        frontFace.moveRow(leftFace, 2);
-    }
-    
-    // front face: rotate clockwise if currentDirection equals 0
-    
-    // using the top arrows on green face
-    
-    //click on top left arrow next to green top face
-    if(mouseX >= 190 && mouseX <= 204 && mouseY >= 50 && mouseY <= 71){
-        //insert functions
-        backFace.rotateBack(1, topFace, rightFace, bottomFace, leftFace);     
         
-    }
+        // front face - top row: move right, arrow on top right of front face
+        if (mouseX <= 300 && mouseX >=290 && mouseY <=190 && mouseY >= 170) 
+        {
+            topFace.color = rotateCube(1, topFace);
+            leftFace.moveRow(frontFace, 0);
+            backFace.moveRow(leftFace, 0);
+            rightFace.moveRow(backFace, 0);
+        } 
+        
+        // front face - top row: move left, arrow on top left of front face
+        if (mouseX <=205 && mouseX >=190 && mouseY <=190 && mouseY >= 170) 
+        {
+            topFace.color = rotateCube(0, topFace);
+            backFace.moveRow(rightFace, 0);
+            leftFace.moveRow(backFace, 0);
+            frontFace.moveRow(leftFace, 0);
+        }
+        
+        // front face - right column: move up, top right arrow of front face
+        if (mouseX >= 260 && mouseX <= 280 && mouseY >= 150 && mouseY <= 160)
+        {
+            rightFace.color = rotateCube(0, rightFace);
+            bottomFace.moveColumn(backFace, 2, 0);
+            backFace.moveColumn(topFace, 0, 2);
+            topFace.moveColumn(frontFace, 2, 2);
+        }
     
-    //click on middle left arrow of green face
-    if(mouseX >= 190 && mouseX <= 204 && mouseY >= 74 && mouseY <=95){
-        topFace.rotateMiddle(1, topFace, leftFace, bottomFace, rightFace);
+        // front face - right column: move down, bottom right arrow of front face
+        if (mouseX >= 260 && mouseX <= 280 && mouseY >= 250 && mouseY <= 260)
+        {
+            rightFace.color = rotateCube(1, rightFace);
+            frontFace.moveColumn(topFace, 2, 2);
+            topFace.moveColumn(backFace, 2, 0);
+            backFace.moveColumn(bottomFace, 0, 2);
+        }
+        
+        // front face - middle column: move up, top middle arrow of front face
+        if (mouseX >= 235 && mouseX <= 255 && mouseY >= 147 && mouseY <= 160)
+        {
+            bottomFace.moveColumn(backFace, 1, 1);
+            backFace.moveColumn(topFace, 1, 1);
+            topFace.moveColumn(frontFace, 1, 1);
+        }
+        
+        // front face - middle column: move down, bottom middle arrow of front face
+        if (mouseX >= 235 && mouseX <= 255 && mouseY >= 245 && mouseY <= 255)
+        {
+            frontFace.moveColumn(topFace, 1, 1);
+            topFace.moveColumn(backFace, 1, 1);
+            backFace.moveColumn(bottomFace, 1, 1);
+        }
+        
+        // front face - left column: move up, top left arrow of front face
+        if (mouseX >= 207 && mouseX <= 230 && mouseY >= 145 && mouseY <= 160)
+        {
+            leftFace.color = rotateCube(1, leftFace);
+            bottomFace.moveColumn(backFace, 0, 2);
+            backFace.moveColumn(topFace, 2, 0);
+            topFace.moveColumn(frontFace, 0, 0);
+        }
+        
+        // front face - left column: move down, bottom left arrow of front face
+        if (mouseX >= 207 && mouseX <= 230 && mouseY >= 245 && mouseY <= 255)
+        {
+            leftFace.color = rotateCube(0, leftFace);
+            frontFace.moveColumn(topFace, 0, 0);
+            topFace.moveColumn(backFace, 0, 2);
+            backFace.moveColumn(bottomFace, 2, 0);
+        }
+        
+        // front face - middle row: move right, middle right arrow of front face
+        if (mouseX >= 285 && mouseX <= 300 && mouseY >= 195 && mouseY <= 210)
+        {
+            leftFace.moveRow(frontFace, 1);
+            backFace.moveRow(leftFace, 1);
+            rightFace.moveRow(backFace, 1); 
+        }
+        
+        // front face - middle row: move left, middle left arrow of front face
+        if (mouseX >= 188 && mouseX <= 203 && mouseY >= 195 && mouseY <= 210)
+        {
+            backFace.moveRow(rightFace, 1);
+            leftFace.moveRow(backFace, 1);
+            frontFace.moveRow(leftFace, 1);
+        }
+        
+        // front face - bottom row: move right, bottom right arrow of front face
+        if (mouseX >= 285 && mouseX <= 300 && mouseY >= 220 && mouseY <= 237)
+        {
+            bottomFace.color = rotateCube(0, bottomFace);
+            leftFace.moveRow(frontFace, 2);
+            backFace.moveRow(leftFace, 2);
+            rightFace.moveRow(backFace, 2); 
+        }
+        
+        // front face - bottom row: move left, bottom left arrow of front face
+        if (mouseX >= 188 && mouseX <= 203 && mouseY >= 220 && mouseY <= 237)
+        {
+            bottomFace.color = rotateCube(1, bottomFace);
+            backFace.moveRow(rightFace, 2);
+            leftFace.moveRow(backFace, 2);
+            frontFace.moveRow(leftFace, 2);
+        }
+        
+        // using the top arrows on green face
+        
+        //click on top left arrow next to green top face, rotates counterclockwise
+        if(mouseX >= 190 && mouseX <= 204 && mouseY >= 50 && mouseY <= 71){
+            backFace.rotateBack(1, topFace, rightFace, bottomFace, leftFace);     
+            
+        }
+        
+        //click on middle left arrow of green face, rotates horizontal middle piece
+        if(mouseX >= 190 && mouseX <= 204 && mouseY >= 74 && mouseY <=95){
+            topFace.rotateMiddle(1, topFace, leftFace, bottomFace, rightFace);
+        }
+        
+        //click on bottom left arrow of green face, rotates front face
+        if(mouseX >= 190 && mouseX <= 204 && mouseY >=100 && mouseY <= 122){
+            frontFace.rotateFront(1, topFace, leftFace, bottomFace, rightFace);  
+        }
+        
+        //click on top right arrow on green face, rotates white (back) face clockwise
+        if(mouseX >= 286 && mouseX <= 298 && mouseY >= 50 && mouseY <= 70){
+            backFace.rotateBack(0, topFace, rightFace, bottomFace, leftFace);
+        }
+        
+        //click on middle right arrow of green face, rotates middle portion clockwise
+        if(mouseX >= 286 && mouseX <= 298 && mouseY >= 76 && mouseY <= 96){
+            topFace.rotateMiddle(0, topFace, leftFace, bottomFace, rightFace);
+        }
+        
+        //click on bottom right arrow of green face, rotates white (front) face clockwise
+        if(mouseX >= 286 && mouseX <= 298 && mouseY >= 102 && mouseY <= 122){
+            frontFace.rotateFront(0, topFace, leftFace, bottomFace, rightFace); 
+        }
     }
-    
-    //click on bottom left arrow of green face
-    if(mouseX >= 190 && mouseX <= 204 && mouseY >=100 && mouseY <= 122){
-        frontFace.rotateFront(1, topFace, leftFace, bottomFace, rightFace);  
-    }
-    
-    //click on top right arrow on green face
-    if(mouseX >= 286 && mouseX <= 298 && mouseY >= 50 && mouseY <= 70){
-        backFace.rotateBack(0, topFace, rightFace, bottomFace, leftFace);
-    }
-    
-    //click on middle right arrow of green face
-    if(mouseX >= 286 && mouseX <= 298 && mouseY >= 76 && mouseY <= 96){
-        topFace.rotateMiddle(0, topFace, leftFace, bottomFace, rightFace);
-    }
-    
-    //click on bottom right arrow of green face
-    if(mouseX >= 286 && mouseX <= 298 && mouseY >= 102 && mouseY <= 122){
-        frontFace.rotateFront(0, topFace, leftFace, bottomFace, rightFace); 
-    }
-    }
+    //draws app screen including bitmojis, cube faces, and arrows
     background(255,255,255);
     backFace.draw();
     leftFace.draw();
@@ -796,5 +799,7 @@ mouseClicked = function() {
     rightFace.draw();
     topFace.draw();
     bottomFace.draw();
+    drawSeth(322,30,40);
+    drawShuichi(146,100,30);
     
 };
