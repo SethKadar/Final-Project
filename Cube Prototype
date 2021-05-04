@@ -102,7 +102,77 @@ var drawSeth= function(x,y,bmh){
 
 //code for Schuichi's Bitmoji
 
+var drawHeadShuichi = function (bitmojiX, bitmojiY, bitmojiH) {
+        var p = bitmojiH/100;
+        //Head
+        fill(255, 224, 189);
+        ellipse(bitmojiX-58*p,bitmojiY-200*p,20*p,20*p); //Left ear
+        ellipse(bitmojiX-103*p,bitmojiY-200*p,20*p,20*p); //Right ear
+        triangle(bitmojiX-98*p,bitmojiY-162*p,bitmojiX-62*p,bitmojiY-162*p,bitmojiX-85*p             ,bitmojiY-185*p);     //Neck
+        ellipse(bitmojiX-81*p,bitmojiY-200*p,56*p,65*p); //Head shape
+        fill(255, 255, 255, 0);
+        arc(bitmojiX-146*p,bitmojiY-176*p,95*p,69*p,345,354); //Right cheek
+        arc(bitmojiX-13*p,bitmojiY-176*p,100*p,69*p,187,197); //Left cheek
+    //Face
+        fill(255, 255, 255);
+        ellipse(bitmojiX-70*p,bitmojiY-201*p,12*p,9*p); //Left eye
+        fill(110, 58, 2);
+        ellipse(bitmojiX-70*p,bitmojiY-201*p,3*p,5*p); //Left pupil
+        fill(255, 255, 255);
+        ellipse(bitmojiX-91*p,bitmojiY-201*p,12*p,9*p); //Right eye
+        fill(110, 58, 2);
+        ellipse(bitmojiX-90*p,bitmojiY-201*p,3*p,5*p); //Right pupil
+        fill(255, 224, 189);
+        arc(bitmojiX-81*p,bitmojiY-191*p,40*p,20*p,62,109); //Mouth
+        arc(bitmojiX-81*p,bitmojiY-203*p,10*p,27*p,30,127); //Nose
+    //Hat
+        fill(0);
+        arc(bitmojiX-89*p,bitmojiY-223*p,61*p,32*p,130,369); //Brim
+        stroke(255, 255, 255); 
+        ellipse(bitmojiX-72*p,bitmojiY-233*p,7*p,7*p); //Ring1
+        ellipse(bitmojiX-78*p,bitmojiY-235*p,7*p,7*p); //Ring2
+        stroke(0);
+    //Hair
+        fill(89, 36, 0);
+        arc(bitmojiX-104*p,bitmojiY-211*p,19*p,28*p,130,344);
+        arc(bitmojiX-91*p,bitmojiY-214*p,19*p,28*p,158,361);
+        arc(bitmojiX-76*p,bitmojiY-214*p,45*p,19*p,204,387);
+}; 
+    
+var drawBodyShuichi = function (bitmojiX, bitmojiY, bitmojiH) {
+    var p = bitmojiH/100;
+        
+    //Body
+    fill(207, 185, 151);
+    quad(bitmojiX-114*p,bitmojiY-162*p,bitmojiX-43*p,bitmojiY-162*p,bitmojiX-8*p,bitmojiY-119     *p,bitmojiX-146*p,bitmojiY-120*p); //Shoulders
+    fill(255, 224, 189);
+    arc(bitmojiX-80*p,bitmojiY-161*p,50*p,26*p,0,180); //Collar
+    fill(207, 185, 151);
+    rect(bitmojiX-147*p,bitmojiY-120*p,35*p,101*p); //Right arm
+    noStroke();
+    ellipse(bitmojiX-134*p,bitmojiY-118*p,26*p,8*p);
+    stroke(0);
+    rect(bitmojiX-44*p,bitmojiY-120*p,35*p,101*p); //Left arm
+    noStroke();
+    ellipse(bitmojiX-21*p,bitmojiY-118*p,26*p,8*p);
+    stroke(0);
+    quad(bitmojiX-111*p,bitmojiY-46*p,bitmojiX-44*p,bitmojiY-46*p,bitmojiX-33*p,bitmojiY-119     *p,bitmojiX-123*p,bitmojiY-119*p); //Torso
+    noStroke();
+    ellipse(bitmojiX-79*p,bitmojiY-120*p,102*p,8*p);
+    stroke(0);
+    rect(bitmojiX-112*p,bitmojiY-46*p,68*p,34*p); //Waist
+    noStroke();
+    ellipse(bitmojiX-78*p,bitmojiY-46*p,89*p,3*p);
+    stroke(0);
+    fill(0, 0, 0);
+    textSize(30*p);
+    text("SK",bitmojiX-84*p,bitmojiY-112*p);
+};
 
+var drawShuichi = function (bitmojiX, bitmojiY, bitmojiH) {
+   drawHeadShuichi(bitmojiX, bitmojiY, bitmojiH);
+   drawBodyShuichi(bitmojiX, bitmojiY, bitmojiH);
+};
 
 var scene = 1; // 1 is splashcreen
 
@@ -728,5 +798,3 @@ mouseClicked = function() {
     bottomFace.draw();
     
 };
-
-
