@@ -1,3 +1,109 @@
+//code for Seth's Bitmoji
+var drawHat = function(x,y,bmh){
+    fill(133, 133, 133); //hat band fill
+    stroke(0, 0, 0); //outline for hat band
+    strokeWeight(bmh/150*1);
+    arc(x+(bmh/150 *50),y+(bmh/150 *17),bmh/150 *71,bmh/150 *58,165,378); //hat band
+    fill(199, 199, 199); //hat logo color
+    rect(x+(bmh/150 *43),y-(bmh/150 *9),bmh/150 *16,bmh/150 *15); //hat logo box
+    stroke(255,132,0);
+    strokeWeight(bmh/150*1);
+    fill(255, 132, 0); //C hat color
+    arc(x+(bmh/150 *54),y-(bmh/150 *1),(bmh/150 *15),(bmh/150 *12),90,270); //C in hat logo
+    fill(199, 199, 199); //color for hat box
+    noStroke(); //no stroke for second C
+    arc(x+(bmh/150 *58),y-(bmh/150 *2),(bmh/150 *15),(bmh/150 *8),90,270); //second C in hat logo
+    //top of hat
+    stroke(0, 0, 0);
+    strokeWeight(bmh/150*1);
+    fill(133,133, 133); //top of hat color
+    arc(x+(bmh/150 *50),y-(bmh/150 *12),(bmh/150 *75),(bmh/150 *56),149,393); //top of hat
+    
+};
+
+var drawHead = function (x,y,bmh){
+    
+    fill(255, 224, 189); //skin color
+    noStroke();
+    ellipse(x+(bmh/150 *50),y+(bmh/150 *50),(bmh/150 *70),(bmh/150 *89)); //face shape
+    stroke(0, 0, 0);
+    fill(255,255,255); //eye color
+    ellipse(x+(bmh/150 *34),y+(bmh/150 *40),(bmh/150 *14),(bmh/150 *8)); //left eye
+    ellipse(x+(bmh/150 *64),y+(bmh/150 *40),(bmh/150 *14),(bmh/150 *8)); //right eye
+    fill(99, 33, 33); //pupil color
+    ellipse(x+(bmh/150 *34),y+(bmh/150 *40),(bmh/150 *6),(bmh/150 *4)); //left pupil
+    ellipse(x+(bmh/150 *64),y+(bmh/150 *40),(bmh/150 *6),(bmh/150 *4)); //right pupil
+    fill(255, 255, 255); //tooth color
+    stroke(209, 152, 173); //lip color
+    strokeWeight(bmh/150*3); //lipsize
+    arc(x+(bmh/150 *50),y+(bmh/150 *70),(bmh/150 *25),(bmh/150 *18),1,180); //smile
+    line(x+(bmh/150 *38),y+(bmh/150 *70),x+(bmh/150 *60),y+(bmh/150 *70)); //line above mouth
+    fill(255,255,255); //jaw color
+    noStroke(); //jaw no color
+    arc(x-(bmh/150 *1),y+(bmh/150 *87),(bmh/150 *62),(bmh/150 *58),-49,9); //left jaw
+    arc(x+(bmh/150 *105),y+(bmh/150 *82),(bmh/150 *62),(bmh/150 *58),169,231); //right jaw
+    //hair under hat
+    noFill();
+    stroke(0, 0, 0);
+    strokeWeight(bmh/150*3);
+    arc(x+(bmh/150 *104),y+(bmh/150 *27),(bmh/150 *43),(bmh/150 *-26),162,267); //right hair piece 1
+    arc(x+(bmh/150 *105),y+(bmh/150 *32),(bmh/150 *43),(bmh/150 *-26),162,267); //right hair piece 2
+    arc(x+(bmh/150 *104),y+(bmh/150 *37),(bmh/150 *43),(bmh/150 *-26),162,267); // right hair piece 3
+    arc(x+(bmh/150 *3),y+(bmh/150 *25),(bmh/150 *29),(bmh/150 *-21),237,363); //left hair piece 1
+    arc(x+(bmh/150 *3),y+(bmh/150 *31),(bmh/150 *29),(bmh/150 *-21),237,363); //left hair piece 2
+    arc(x+(bmh/150 *3),y+(bmh/150 *36),(bmh/150 *29),(bmh/150 *-21),237,363); //left hair piece 3
+    //nose
+    fill(255, 224, 189); //nose fill
+    stroke(0, 0, 0); //nose stroke
+    strokeWeight(bmh/150*2);
+    bezier(x+(bmh/150 *50),y+(bmh/150 *45),x+(bmh/150 *55),y+(bmh/150 *54),x+(bmh/150 *64),y+(bmh/150 *65),x+(bmh/150 *49),y+(bmh/150 *64)); //nose shape
+    //eyebrows
+    noFill();
+    arc(x+(bmh/150 *64),y+(bmh/150 *42),(bmh/150 *17),(bmh/150 *-20),38,141); //right
+    arc(x+(bmh/150 *34),y+(bmh/150 *42),(bmh/150 *17),(bmh/150 *-20),38,141); //left
+    strokeWeight(bmh/150*1);
+    ellipse(x+(bmh/150 *32),y+(bmh/150 *60),(bmh/150 *2),(bmh/150 *5)); //left dimple
+    ellipse(x+(bmh/150 *70),y+(bmh/150 *58),(bmh/150 *2),(bmh/150 *5)); //right dimple
+    noStroke();
+    fill(255, 224, 189); //underneath hat hand
+    arc(x+(bmh/150 *50),y+(bmh/150 *35),(bmh/150 *72),(bmh/150 *45),207,331); //underhat band
+};
+
+var drawBody = function(x,y,bmh){
+    //shirt
+    noStroke();
+    fill(11, 11, 138);
+    rect(x+(bmh/150 *7),y+(bmh/150 *151),(bmh/150 *100),(bmh/150 *46)); //bottom of shirt
+    quad(x+(bmh/150 *21),y+(bmh/150 *109),x+(bmh/150 *85),y+(bmh/150 *108),x+(bmh/150 *127),y+(bmh/150 *154),x-(bmh/150 *14),y+(bmh/150 *157)); //top of shirt
+    fill(255, 224, 189); //arm color
+    rect(x-(bmh/150 *14),y+(bmh/150 *155),(bmh/150 *20),(bmh/150 *57),(bmh/150 *10)); //left arm
+    rect(x+(bmh/150 *37),y+(bmh/150 *89),(bmh/150 *26),(bmh/150 *23),(bmh/150 *10)); //neck
+    rect(x+(bmh/150 *108),y+(bmh/150 *150),(bmh/150 *20),(bmh/150 *57),(bmh/150 *10)); //right arm
+    arc(x+(bmh/150 *51),y+(bmh/150 *108),(bmh/150 *41),(bmh/150 *19),1,180); //neck bottom
+    //details on shirt
+    stroke(0, 0, 0);
+    strokeWeight(bmh/150*1);
+    noFill();
+    arc(x+(bmh/150 *30),y+(bmh/150 *136),(bmh/150 *15),(bmh/150 *-15),90,270); //top of S
+    arc(x+(bmh/150 *30),y+(bmh/150 *151),(bmh/150 *15),(bmh/150 *-15),210,438); //bottom of S
+    line(x+(bmh/150 *45),y+(bmh/150 *129),x+(bmh/150 *45),y+(bmh/150 *157)); //vertical line in K
+    line(x+(bmh/150 *60),y+(bmh/150 *130),x+(bmh/150 *46),y+(bmh/150 *148)); // top line in K
+    line(x+(bmh/150 *60),y+(bmh/150 *157),x+(bmh/150 *46),y+(bmh/150 *143)); //bottom line in K
+    fill(11,11,138); //shirt pocket color
+    rect(x+(bmh/150 *69),y+(bmh/150 *128),(bmh/150 *23),(bmh/150 *26)); //shirt pocket
+    triangle(x+(bmh/150 *68),y+(bmh/150 *153),x+(bmh/150 *92),y+(bmh/150 *155),x+(bmh/150 *81),y+(bmh/150 *164)); //shirt pocket
+};
+
+var drawSeth= function(x,y,bmh){
+    drawHat(x,y,bmh);
+    drawHead(x,y,bmh);
+    drawBody(x,y,bmh);
+};
+
+//code for Schuichi's Bitmoji
+
+
+
 var scene = 1; // 1 is splashcreen
 
 var Button = function(config) {
@@ -46,10 +152,10 @@ var splashScreen = function(){
     fill(0, 0, 0);
     textSize(30);
     text("Rubik's Cube",80,84);
-    textSize(20);
-    text("By Shuichi Kameda Almeida and Seth Kadar",120, 130);
+    textSize(18);
+    text("By Shuichi Kameda Almeida and Seth Kadar",18, 130);
     btn1.draw();
-    //drawBitmoji(165,273,70);
+    drawSeth(274,273,70);
 };
 
 
@@ -400,14 +506,6 @@ var bottomFace = new Cube(207, 280, [
     [cubeColors[4], cubeColors[4], cubeColors[4]],
 ]);
 
-backFace.draw();
-leftFace.draw();
-frontFace.draw();
-rightFace.draw();
-topFace.draw();
-bottomFace.draw();
-
-
 // draws arrow
 var upArrows = function() {
     for (var i = 0; i < 3; i++) {
@@ -458,7 +556,7 @@ draw = function() {
     if (scene === 1){
      splashScreen();   
     }
-    else if(scene === 2){
+    if(scene === 2){
     //arrows on initial yellow face
     upArrows();
     downArrows();
@@ -620,12 +718,13 @@ mouseClicked = function() {
     if(mouseX >= 286 && mouseX <= 298 && mouseY >= 102 && mouseY <= 122){
         frontFace.rotateFront(0, topFace, leftFace, bottomFace, rightFace); 
     }
-    
+    }
+    background(255,255,255);
     backFace.draw();
     leftFace.draw();
     frontFace.draw();
     rightFace.draw();
     topFace.draw();
     bottomFace.draw();
-    }
+    
 };
